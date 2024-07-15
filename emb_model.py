@@ -8,11 +8,11 @@ from threading import Semaphore, Thread
 
 #model 1:
 
-model_sent_embedding = SentenceTransformer("all-MiniLM-L6-v2")
+# model_sent_embedding = SentenceTransformer("all-MiniLM-L6-v2")
 
-def get_embeddings_from_sentences(sentences):
-  embeddings = model_sent_embedding.encode(sentences, convert_to_tensor=True)
-  return embeddings
+# def get_embeddings_from_sentences(sentences):
+#   embeddings = model_sent_embedding.encode(sentences, convert_to_tensor=True)
+#   return embeddings
 
 #model 2:
 
@@ -22,14 +22,18 @@ def get_embeddings_from_sentences(sentences):
 #   embeddings = model_sent_embedding.encode(sentences, convert_to_tensor=True)
 #   return embeddings
 
+#model 3:
 
+model_sent_embedding = pipeline("feature-extraction", model="google/canine-c")
 
-
-
+def get_embeddings_from_sentences(sentences):
+  embeddings = model_sent_embedding.encode(sentences, convert_to_tensor=True)
+  return embeddings
 
 
 def how_similar_sentences(sentences):
   r = get_embeddings_from_sentences(sentences)
+  # return model.similarity(r,r)
   return util.cos_sim(r,r)
 
 def get_most_similar_sentences(sentences, rate_in_mtrx=0.7):
