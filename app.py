@@ -78,15 +78,23 @@ For more information on `huggingface_hub` Inference API support, please check th
 
 
 ### libraries
+# transformers gradio
+# google-api-python-client
+# thread6
+# sentence-transformers
+# pyvis
+# community
+# python-louvain
+# plotly==5.22.0
+
+
 !pip install -q -U transformers gradio
-
 from transformers import pipeline
-
 from transformers.utils import logging
 logging.set_verbosity_error()
 
-!pip install --upgrade google-api-python-client
 
+!pip install --upgrade google-api-python-client
 from google.colab import userdata
 
 
@@ -217,8 +225,7 @@ translator_to_eng = Translator_to_eng(pipe_tr)
 """#### model( embedding )"""
 
 pip install thread6
-
-!pip install sentence-transformers
+pip install sentence-transformers
 
 
 from sentence_transformers import SentenceTransformer
@@ -381,7 +388,6 @@ def get_graphs_and_cmp_sv(sentences_to_comp, rate):
 
 
 pip install community
-
 pip install python-louvain
 
 import community.community_louvain as lo
