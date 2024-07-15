@@ -332,6 +332,8 @@ def imp_func(youtube_chanel_id, rate=0.75, amount_of_max_videos=500, get_all=Fal
   dict_res['graph_pyvis'] = gr_res['graph_pyvis']
   dict_res['clusters'] = clusters
 
+  print(f"___DEBUG___/ imp_func( {youtube_chanel_id},{rate},{amount_of_max_videos},{get_all} )/ dict_res:{dict_res}")
+
   return dict_res
 
 
@@ -408,6 +410,7 @@ def get_pipeline_prediction(channel_id, rate: float, amount_of_videos):
     # with open("pl.html") as f2:
     #   f2.write(pl_html)
 
+    print(f"___DEBUG___/ get_pipeline_prediction( {channel_id},{rate},{amount_of_videos} )/ RES:{res}")
 
     # f = open("networkx-pyvis.html")
     return (res, "networkx-pyvis.html")
