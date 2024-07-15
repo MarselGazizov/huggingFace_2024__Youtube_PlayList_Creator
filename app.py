@@ -176,21 +176,21 @@ data_gen = Data_gen(
 #### translator
 """
 
-pipe_tr = pipeline("translation", model="utrobinmv/t5_translate_en_ru_zh_base_200")
+# pipe_tr = pipeline("translation", model="utrobinmv/t5_translate_en_ru_zh_base_200")
 
-from transformers import AutoModelForSeq2SeqLM
+# from transformers import AutoModelForSeq2SeqLM
 
-class Translator_to_eng:
+# class Translator_to_eng:
 
-  _tr = None
+#   _tr = None
 
-  def __init__(self, tr):
-    self._tr = tr
+#   def __init__(self, tr):
+#     self._tr = tr
 
-  def translate(self, str_in: str):
-    return self._tr(f"translate to en: {str_in}", max_length=100)
+#   def translate(self, str_in: str):
+#     return self._tr(f"translate to en: {str_in}", max_length=100)
 
-translator_to_eng = Translator_to_eng(pipe_tr)
+# translator_to_eng = Translator_to_eng(pipe_tr)
 
 
 
@@ -341,21 +341,21 @@ def get_most_similar_sentences(sentences, rate_in_mtrx=0.7):
 
 chatbot = pipeline("text2text-generation", model="google/flan-t5-large")
 
-def make_one_title(array_of_videos):
-  res = []
-  for rr in array_of_videos:
-    translated = list(map(translator_to_eng.translate, rr))
-    for i in range(len(translated)):
-      translated[i] = translated[i][0]['translation_text']
-    translated = "; ".join(translated)
+# def make_one_title(array_of_videos):
+#   res = []
+#   for rr in array_of_videos:
+#     translated = list(map(translator_to_eng.translate, rr))
+#     for i in range(len(translated)):
+#       translated[i] = translated[i][0]['translation_text']
+#     translated = "; ".join(translated)
 
-    ask = f"create title for these words and sentences: {translated}"
-    k = chatbot(ask)[0]['generated_text']
-    r = []
-    r.append(f"name of list: {k}")
-    r.extend(rr)
-    res.append(r)
-  return res
+#     ask = f"create title for these words and sentences: {translated}"
+#     k = chatbot(ask)[0]['generated_text']
+#     r = []
+#     r.append(f"name of list: {k}")
+#     r.extend(rr)
+#     res.append(r)
+#   return res
 
 
 
