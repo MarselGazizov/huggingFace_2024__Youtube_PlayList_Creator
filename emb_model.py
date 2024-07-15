@@ -3,7 +3,7 @@ from sentence_transformers import util
 import random
 from threading import Semaphore, Thread
 
-
+from transformers import pipeline
 
 
 #model 1:
