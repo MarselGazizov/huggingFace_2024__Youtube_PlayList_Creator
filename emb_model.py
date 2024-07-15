@@ -5,6 +5,7 @@ from threading import Semaphore, Thread
 
 from transformers import pipeline
 
+########################################
 
 #model 1:
 
@@ -24,11 +25,21 @@ from transformers import pipeline
 
 #model 3:
 
-model_sent_embedding = pipeline("feature-extraction", model="google/canine-c")
+# model_sent_embedding = pipeline("feature-extraction", model="google/canine-c")
+model = CanineModel.from_pretrained('google/canine-c')
+tokenizer = CanineTokenizer.from_pretrained('google/canine-c')
 
 def get_embeddings_from_sentences(sentences):
-  embeddings = model_sent_embedding(sentences, convert_to_tensor=True)
-  return embeddings
+  encoding = tokenizer(sentences, padding="longest", truncation=True, return_tensors="pt")
+
+  outputs = model(**encoding) # forward pass
+
+  pooled_output = outputs.pooler_output
+  sequence_output = outputs.last_hidden_state
+  return pooled_output
+
+
+########################################
 
 
 def how_similar_sentences(sentences):
