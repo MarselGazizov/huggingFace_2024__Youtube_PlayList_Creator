@@ -95,7 +95,7 @@ logging.set_verbosity_error()
 
 
 # !pip install --upgrade google-api-python-client
-from google.colab import userdata
+# from google.colab import userdata
 
 
 
@@ -103,8 +103,12 @@ from google.colab import userdata
 
 
 """### vars"""
-HF_TOKEN_F = userdata.get('HF_TOKEN_F')
-API_KEY = userdata.get('api_key')
+# HF_TOKEN_F = userdata.get('HF_TOKEN_F')
+# API_KEY = userdata.get('api_key')
+import os
+
+HF_TOKEN_F = os.getenv('HF_TOKEN_F')
+API_KEY = os.getenv('api_key')
 
 
 
