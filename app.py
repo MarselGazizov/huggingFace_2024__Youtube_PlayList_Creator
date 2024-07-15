@@ -88,13 +88,13 @@ For more information on `huggingface_hub` Inference API support, please check th
 # plotly==5.22.0
 
 
-!pip install -q -U transformers gradio
+# !pip install -q -U transformers gradio
 from transformers import pipeline
 from transformers.utils import logging
 logging.set_verbosity_error()
 
 
-!pip install --upgrade google-api-python-client
+# !pip install --upgrade google-api-python-client
 from google.colab import userdata
 
 
@@ -224,8 +224,8 @@ translator_to_eng = Translator_to_eng(pipe_tr)
 
 """#### model( embedding )"""
 
-pip install thread6
-pip install sentence-transformers
+# pip install thread6
+# pip install sentence-transformers
 
 
 from sentence_transformers import SentenceTransformer
@@ -357,7 +357,7 @@ def make_one_title(array_of_videos):
 
 """### graphs"""
 
-pip install pyvis
+# pip install pyvis
 
 import matplotlib.pyplot as plt
 import networkx as nx
@@ -387,8 +387,8 @@ def get_graphs_and_cmp_sv(sentences_to_comp, rate):
 
 
 
-pip install community
-pip install python-louvain
+# pip install community
+# pip install python-louvain
 
 import community.community_louvain as lo
 
@@ -435,7 +435,7 @@ def imp_func(youtube_chanel_id, rate=0.75, amount_of_max_videos=500, get_all=Fal
 
 """# gradio"""
 
-!pip install plotly==5.22.0
+# !pip install plotly==5.22.0
 
 import os
 import gradio as gr
