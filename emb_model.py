@@ -27,7 +27,7 @@ from transformers import pipeline
 model_sent_embedding = pipeline("feature-extraction", model="google/canine-c")
 
 def get_embeddings_from_sentences(sentences):
-  embeddings = model_sent_embedding.encode(sentences, convert_to_tensor=True)
+  embeddings = model_sent_embedding(sentences, convert_to_tensor=True)
   return embeddings
 
 
