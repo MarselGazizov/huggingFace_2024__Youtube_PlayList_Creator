@@ -1,1 +1,10 @@
 huggingface_hub==0.22.2
+transformers 
+gradio
+google-api-python-client
+thread6
+sentence-transformers
+pyvis
+community
+python-louvain
+plotly==5.22.0
