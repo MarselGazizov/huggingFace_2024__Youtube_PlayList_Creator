@@ -26,6 +26,7 @@ from transformers import pipeline
 #model 3:
 
 # model_sent_embedding = pipeline("feature-extraction", model="google/canine-c")
+from transformers import CanineTokenizer, CanineModel
 model = CanineModel.from_pretrained('google/canine-c')
 tokenizer = CanineTokenizer.from_pretrained('google/canine-c')
 
