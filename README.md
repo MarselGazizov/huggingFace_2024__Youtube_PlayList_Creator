@@ -1,5 +1,5 @@
 ---
-title: Gradio Chatbot
+title: Play Lists Creator
 emoji: 💬
 colorFrom: yellow
 colorTo: purple
