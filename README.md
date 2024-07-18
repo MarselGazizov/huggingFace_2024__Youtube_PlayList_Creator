@@ -34,7 +34,7 @@ LINK - https://huggingface.co/spaces/MarseL123/play_lists_creator
 
 1. HOME PAGE
 
-<img src="https://github.com/user-attachments/assets/55cd8e1a-19b7-426a-822b-6c4be775fd0e" width=60% height=60%>
+<img src="https://github.com/user-attachments/assets/55cd8e1a-19b7-426a-822b-6c4be775fd0e" width=600 height=200>
 
 ```channel_id``` - id of channel;
 
