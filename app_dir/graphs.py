@@ -3,6 +3,7 @@
 # pip install pyvis
 
 import networkx as nx
+from networkx import Graph
 
 from pyvis.network import Network
 
@@ -36,13 +37,22 @@ def get_graphs_and_cmp_sv(sentences_to_comp, rate):
 import community.community_louvain as lo
 
 
-def get_clusters(graph_nx):
+def get_clusters_and_colorized_graph(graph_nx: Graph):
     partition = lo.best_partition(graph_nx)
 
-    clusters = []
+    color_map = []
+    for node in graph_nx:
+        if node < 'р':
+            color_map.append('blue')
+        else:
+            color_map.append('green')
+    nx.draw(graph_nx, node_color=color_map, with_labels=True)
 
+    clusters = []
     for cluster_id in set(partition.values()):
         nodes = [nodes for nodes in partition.keys() if partition[nodes] == cluster_id]
-        if (len(nodes) > 2):
+
+        # min amount of nodes in cluster is 2
+        if len(nodes) > 1:
             clusters.append(nodes)
-    return clusters
+    return (clusters, graph_nx)
