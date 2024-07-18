@@ -1,6 +1,7 @@
 import json
 
 import gradio as gr
+import networkx as nx
 import pandas as pd
 import logging
 
@@ -134,6 +135,9 @@ def imp_func(youtube_chanel_id, rate=0.75, amount_of_max_videos=500, get_all=Fal
     (clusters, colorized_graph) = get_clusters_and_colorized_graph(gr_res['graph_nx'])
     # gr_res['graph_nx'] = colorized_graph
     # print(clusters)
+
+    log.debug(f"printing colorized graph")
+    nx.draw(colorized_graph)
 
     # import gc
     # del model_sent_embedding
