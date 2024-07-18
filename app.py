@@ -204,7 +204,10 @@ def get_pipeline_prediction(channel_id, rate: float, amount_of_videos):
         count_for_dict += 1
         # res[count_for_dict] = i
         # res.append(["______"])
-    df_clusters = pd.concat(clusters_in_series_form, axis=1)
+    if len(clusters_in_series_form) != 0:
+        df_clusters = pd.concat(clusters_in_series_form, axis=1)
+    else:
+        df_clusters = pd.DataFrame()
     df_clusters = df_clusters.fillna("ꚙ")
 
     # res_json = json.dumps(res)
