@@ -55,4 +55,4 @@ def get_clusters_and_colorized_graph(graph_nx: Graph):
         # min amount of nodes in cluster is 2
         if len(nodes) > 1:
             clusters.append(nodes)
-    return (clusters, graph_nx)
+    return clusters, graph_nx

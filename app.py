@@ -131,7 +131,7 @@ def imp_func(youtube_chanel_id, rate=0.75, amount_of_max_videos=500, get_all=Fal
                                                         get_all=get_all)
 
     gr_res = get_graphs_and_cmp_sv(videos_to_comp, rate)
-    (clusters,) = get_clusters_and_colorized_graph(gr_res['graph_nx'])
+    (clusters, colorized_graph) = get_clusters_and_colorized_graph(gr_res['graph_nx'])
     # gr_res['graph_nx'] = colorized_graph
     # print(clusters)
 
