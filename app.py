@@ -1,8 +1,6 @@
-import os
 import json
 
 import gradio as gr
-from huggingface_hub import InferenceClient
 
 """
 For more information on `huggingface_hub` Inference API support, please check the docs: https://huggingface.co/docs/huggingface_hub/v0.22.2/en/guides/inference
@@ -81,7 +79,6 @@ For more information on `huggingface_hub` Inference API support, please check th
 
 
 # !pip install -q -U transformers gradio
-from transformers import pipeline
 from transformers.utils import logging
 
 logging.set_verbosity_error()
@@ -94,61 +91,17 @@ logging.set_verbosity_error()
 # HF_TOKEN_F = userdata.get('HF_TOKEN_F')
 # API_KEY = userdata.get('api_key')
 
-from vars import HF_TOKEN_F
 
 """### data"""
-from data import data_gen
+from app.data import data_gen
 
 """
 ### models
-
-#### translator
 """
 
-# pipe_tr = pipeline("translation", model="utrobinmv/t5_translate_en_ru_zh_base_200")
-
-# from transformers import AutoModelForSeq2SeqLM
-
-# class Translator_to_eng:
-
-#   _tr = None
-
-#   def __init__(self, tr):
-#     self._tr = tr
-
-#   def translate(self, str_in: str):
-#     return self._tr(f"translate to en: {str_in}", max_length=100)
-
-# translator_to_eng = Translator_to_eng(pipe_tr)
-
-
-"""#### translating"""
-
-# def get_all_videos_from_youtube_chanel_and_turn_to_eng_lang(channel_id):
-#   return list(map(translator_to_eng.translate, get_all_videos_from_youtube_chanel_that_is_on_native_lang(channel_id)))
-
-# def get_titles_of_videos_data_and_turn_to_eng_lang(videos, amount, get_all=False):
-#   return list(map(translator_to_eng.translate, get_titles_of_videos_data(videos, amount, get_all=False)))
-
-# videos_both_native_and_eng = []
-
-# videos_both_native_and_eng.append(all_videos_from_yout_chanel_that_is_on_native_lang)
-
-# all_videos_from_yout_chanel_that_is_on_eng_lang = []
-# for i in all_videos_from_yout_chanel_that_is_on_native_lang:
-#   all_videos_from_yout_chanel_that_is_on_eng_lang.append(translator_to_eng.translate(i))
-
-# videos_both_native_and_eng.append(all_videos_from_yout_chanel_that_is_on_eng_lang)
-
-
-# title_of_videos_both_native_and_eng = dict()
-# title_of_videos_both_native_and_eng['native'] = get_titles_of_videos_data(
-#     videos_both_native_and_eng['native']
-# )
-# title_of_videos_both_native_and_eng['eng'] = get_titles_of_videos_data(
-#     videos_both_native_and_eng['eng']
-# )
-
+"""
+#### translator
+"""
 
 """#### model( embedding )"""
 
@@ -156,92 +109,23 @@ from data import data_gen
 # pip install sentence-transformers
 
 
-from emb_model import get_most_similar_sentences
-
 """#### summarization"""
 
-# chatbot = pipeline("question-answering",
-#                    model="facebook/blenderbot-400M-distill")
-
-chatbot = pipeline("text2text-generation", model="google/flan-t5-large")
-
-# def make_one_title(array_of_videos):
-#   res = []
-#   for rr in array_of_videos:
-#     translated = list(map(translator_to_eng.translate, rr))
-#     for i in range(len(translated)):
-#       translated[i] = translated[i][0]['translation_text']
-#     translated = "; ".join(translated)
-
-#     ask = f"create title for these words and sentences: {translated}"
-#     k = chatbot(ask)[0]['generated_text']
-#     r = []
-#     r.append(f"name of list: {k}")
-#     r.extend(rr)
-#     res.append(r)
-#   return res
-
-
 """### graphs"""
-
-# pip install pyvis
-
-import matplotlib.pyplot as plt
-import networkx as nx
-
-from pyvis.network import Network
-from IPython.display import display, HTML
-
-
-def get_graphs_and_cmp_sv(sentences_to_comp, rate):
-    graph = nx.Graph()
-    graph.add_nodes_from(sentences_to_comp)
-    edjes = get_most_similar_sentences(sentences_to_comp, rate)
-    graph.add_edges_from(edjes)
-
-    dict_res = {
-        "comp_sv": list(nx.connected_components(graph)),
-        "amount_of_comp_sv": nx.number_connected_components(graph),
-        "graph_nx": graph
-    }
-
-    net = Network(notebook=True, cdn_resources='remote')
-    net.add_nodes(sentences_to_comp)
-    net.add_edges(edjes)
-
-    dict_res['graph_pyvis'] = net
-
-    return dict_res
-
-
-# pip install community
-# pip install python-louvain
-
-import community.community_louvain as lo
-
-
-def get_clusters(graph_nx):
-    partition = lo.best_partition(graph_nx)
-
-    clusters = []
-
-    for cluster_id in set(partition.values()):
-        nodes = [nodes for nodes in partition.keys() if partition[nodes] == cluster_id]
-        if (len(nodes) > 2):
-            clusters.append(nodes)
-    return clusters
-
+from app.graphs import get_graphs_and_cmp_sv
+from app.graphs import get_clusters
 
 """### wrappers for models"""
 
 
 def imp_func(youtube_chanel_id, rate=0.75, amount_of_max_videos=500, get_all=False):
-    videos = data_gen.get_all_videos_from_youtube_chanel_that_is_on_native_lang(channel_id=youtube_chanel_id)
-    videos_to_comp = data_gen.get_titles_of_videos_data(amount=amount_of_max_videos, get_all=get_all)
+    # videos = data_gen.get_all_videos_from_youtube_chanel_that_is_on_native_lang(channel_id=youtube_chanel_id)
+    videos_to_comp = data_gen.get_titles_of_videos_data(channel_id=youtube_chanel_id, amount=amount_of_max_videos,
+                                                        get_all=get_all)
 
     gr_res = get_graphs_and_cmp_sv(videos_to_comp, rate)
     clusters = get_clusters(gr_res['graph_nx'])
-    print(clusters)
+    # print(clusters)
 
     # import gc
     # del model_sent_embedding
@@ -258,9 +142,8 @@ def imp_func(youtube_chanel_id, rate=0.75, amount_of_max_videos=500, get_all=Fal
 
 """# gradio"""
 
+
 # !pip install plotly==5.22.0
-
-
 
 
 # import matplotlib.cm as cm

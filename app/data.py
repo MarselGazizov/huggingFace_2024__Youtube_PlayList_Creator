@@ -4,14 +4,13 @@ import logging
 
 # vars
 
-from vars import API_KEY
+from api_vars import API_KEY
 
 
 #
 
 
 class DataGen:
-    videos = []
 
     _youtube = None
 
@@ -20,6 +19,8 @@ class DataGen:
 
     def get_all_videos_from_youtube_chanel_that_is_on_native_lang(self, channel_id):
         logging.info("start of func")
+
+        videos = []
 
         res = self._youtube.channels().list(id=channel_id,
                                             part='contentDetails').execute()
@@ -33,22 +34,22 @@ class DataGen:
                                                      part='snippet',
                                                      maxResults=50,
                                                      pageToken=next_page_token).execute()
-            self.videos += res['items']
+            videos += res['items']
             next_page_token = res.get('nextPageToken')
 
             if next_page_token is None:
                 break
 
-        return self.videos
+        return videos
 
-    def get_titles_of_videos_data(self, amount=500, get_all=False):
+    def get_titles_of_videos_data(self, channel_id, amount=500, get_all=False):
         logging.info("start of func")
-        if (get_all):
-            r = self.videos.copy()
+        if get_all:
+            r = self.get_all_videos_from_youtube_chanel_that_is_on_native_lang(channel_id)
         else:
-            r = self.videos.copy()[:amount]
+            r = self.get_all_videos_from_youtube_chanel_that_is_on_native_lang(channel_id)[:amount]
         for i in range(len(r)):
-            r[i] = self.videos[i]['snippet']['title']
+            r[i] = r[i]['snippet']['title']
         logging.info(f"len(res) = {len(r)}")
         return r
 
