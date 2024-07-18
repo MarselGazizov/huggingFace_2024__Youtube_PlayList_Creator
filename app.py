@@ -219,6 +219,7 @@ def get_pipeline_prediction(channel_id, rate: float, amount_of_videos):
     # save_json(df_clusters, "clusters.json")
 
     pipeline_output['graph_pyvis'].show_buttons(filter_=['physics'])
+    pipeline_output['graph_pyvis'].barnes_hut(gravity=-28050)
     pipeline_output['graph_pyvis'].save_graph("networkx-pyvis.html")
     # f = open("networkx-pyvis.html")
 
