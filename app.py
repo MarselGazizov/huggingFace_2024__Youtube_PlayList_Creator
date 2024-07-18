@@ -182,7 +182,7 @@ def get_pipeline_prediction(channel_id, rate: float, amount_of_videos):
         # res.append(i)
         # todo
         name = "just_name"
-        clusters_in_series_form[name] = i
+        clusters_in_series_form[name] = pd.Series(i)
         # res[count_for_dict] = i
         # res.append(["______"])
     df_clusters = pd.concat(clusters_in_series_form, axis=1)
