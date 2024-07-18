@@ -146,14 +146,14 @@ def imp_func(youtube_chanel_id, rate=0.75, amount_of_max_videos=500, get_all=Fal
         str_res = ""
         count = 1
         for i in arr:
-            str_res += f"\n{count} = {i}\n"
+            str_res += f"{count} = {i}\n"
             count += 1
         return str_res
 
     # logging.debug(f"\nimp_func( {youtube_chanel_id},{rate},{amount_of_max_videos},{get_all} )")
     # log.debug(f"\ndict_res:{dict_res}\n")
     log.info(f"dict_res:"
-             f"graph_pyvis: {dict_res['graph_pyvis']}"
+             f"graph_pyvis: {dict_res['graph_pyvis'].__str__()}\n"
              f"clusters: {get_beaut_str_2d_arr(dict_res['clusters'])}")
 
     return dict_res
