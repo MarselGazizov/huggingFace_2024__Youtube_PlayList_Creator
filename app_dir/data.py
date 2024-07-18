@@ -4,7 +4,7 @@ import logging
 
 # vars
 
-from api_vars import API_KEY
+from app_dir.api_vars import API_KEY
 
 
 #

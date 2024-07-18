@@ -6,7 +6,7 @@ import networkx as nx
 
 from pyvis.network import Network
 
-from models.emb_model import get_most_similar_sentences
+from app_dir.models.emb_model import get_most_similar_sentences
 
 
 def get_graphs_and_cmp_sv(sentences_to_comp, rate):
