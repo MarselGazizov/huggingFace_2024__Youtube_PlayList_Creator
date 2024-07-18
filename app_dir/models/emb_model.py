@@ -11,7 +11,7 @@ DEF_RATE_IN_MTRX = 0.7
 """logger"""
 from app_dir.logger import get_logger
 
-log = get_logger("emb_model", logging.INFO)
+log = get_logger("emb_model")
 
 ########################################
 
