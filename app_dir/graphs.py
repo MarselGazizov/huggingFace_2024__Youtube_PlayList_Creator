@@ -2,6 +2,10 @@
 
 # pip install pyvis
 
+import matplotlib.colors as mcolors
+import matplotlib.pyplot as plt
+import numpy as np
+
 import networkx as nx
 from networkx import Graph
 
@@ -40,19 +44,36 @@ import community.community_louvain as lo
 def get_clusters_and_colorized_graph(graph_nx: Graph):
     partition = lo.best_partition(graph_nx)
 
+    amount_of_colors = len(set(partition.values()))
+
+    def get_n_colors(n):
+        cmap = plt.cm.get_cmap('Oranges')
+        return [mcolors.to_hex(cmap(i)) for i in np.linspace(0, 1, n)]
+
+    colors_range = get_n_colors(amount_of_colors)
+
+    cl_id__color__dict = dict()
+
     color_map = []
-    for node in graph_nx:
-        if node < 'р':
-            color_map.append('blue')
-        else:
-            color_map.append('green')
-    nx.draw(graph_nx, node_color=color_map, with_labels=True)
 
     clusters = []
+    color_count = 0
     for cluster_id in set(partition.values()):
-        nodes = [nodes for nodes in partition.keys() if partition[nodes] == cluster_id]
+        cl_id__color__dict[cluster_id] = colors_range[color_count]
+        color_count += 1
 
+        nodes = [nodes for nodes in partition.keys() if partition[nodes] == cluster_id]
         # min amount of nodes in cluster is 2
         if len(nodes) > 1:
             clusters.append(nodes)
+
+    for node in graph_nx:
+        if partition[node] in cl_id__color__dict:
+            cluster_id = partition[node]
+            color = cl_id__color__dict[cluster_id]
+            color_map.append(color)
+        else:
+            color_map.append("fff5eb")
+
+    nx.draw(graph_nx, node_color=color_map, with_labels=True)
     return clusters, graph_nx
