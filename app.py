@@ -2,6 +2,7 @@ import json
 
 import gradio as gr
 import pandas as pd
+import logging
 
 """
 For more information on `huggingface_hub` Inference API support, please check the docs: https://huggingface.co/docs/huggingface_hub/v0.22.2/en/guides/inference
@@ -80,9 +81,9 @@ For more information on `huggingface_hub` Inference API support, please check th
 
 
 # !pip install -q -U transformers gradio
-from transformers.utils import logging
+from transformers.utils import logging as tr_logging
 
-logging.set_verbosity_error()
+tr_logging.set_verbosity_error()
 
 # !pip install --upgrade google-api-python-client
 # from google.colab import userdata
@@ -136,7 +137,8 @@ def imp_func(youtube_chanel_id, rate=0.75, amount_of_max_videos=500, get_all=Fal
     dict_res['graph_pyvis'] = gr_res['graph_pyvis']
     dict_res['clusters'] = clusters
 
-    print(f"___DEBUG___/ imp_func( {youtube_chanel_id},{rate},{amount_of_max_videos},{get_all} )/ dict_res:{dict_res}")
+    # logging.debug(f"\nimp_func( {youtube_chanel_id},{rate},{amount_of_max_videos},{get_all} )")
+    logging.debug(f"\ndict_res:{dict_res}\n")
 
     return dict_res
 
@@ -220,7 +222,7 @@ def get_pipeline_prediction(channel_id, rate: float, amount_of_videos):
     # with open("pl.html") as f2:
     #   f2.write(pl_html)
 
-    print(f"___DEBUG___/ get_pipeline_prediction( {channel_id},{rate},{amount_of_videos} )/ RES:{res}")
+    # logging.debug(f"\n{res}\n")
 
     # f = open("networkx-pyvis.html")
     return (gr.DataFrame(df_clusters), "networkx-pyvis.html")

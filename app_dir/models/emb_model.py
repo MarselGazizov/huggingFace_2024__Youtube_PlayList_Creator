@@ -131,9 +131,9 @@ def get_most_similar_sentences(sentences, rate_in_mtrx=DEF_RATE_IN_MTRX):
     for t in threads:
         t.join()
 
-    print(f"\n{len(threads)}\n")
+    logging.info(f"\nlen(threads): {len(threads)}\n")
 
     for t in threads:
-        print(t.is_alive())
+        logging.info(f"t.is_alive(): {t.is_alive()}")
 
     return arr_res
