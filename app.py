@@ -219,16 +219,14 @@ def get_pipeline_prediction(channel_id, rate: float, amount_of_videos):
     # save_json(df_clusters, "clusters.json")
 
     pipeline_output['graph_pyvis'].show_buttons(filter_=['physics'])
-    options = """
-    const options = {
-      "physics": {
-        "barnesHut": {
-          "gravitationalConstant": -28050
-        },
-        "minVelocity": 0.75
-      }
-    }
-    """
+    options = """const options = {
+        "physics": {
+            "barnesHut": {
+                "gravitationalConstant": -28050
+            },
+            "minVelocity": 0.75
+        }
+    }"""
     pipeline_output['graph_pyvis'].set_options(options)
     pipeline_output['graph_pyvis'].save_graph("networkx-pyvis.html")
     # f = open("networkx-pyvis.html")
