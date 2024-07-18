@@ -1,3 +1,6 @@
+import os
+import json
+
 import gradio as gr
 from huggingface_hub import InferenceClient
 
@@ -90,60 +93,11 @@ logging.set_verbosity_error()
 """### vars"""
 # HF_TOKEN_F = userdata.get('HF_TOKEN_F')
 # API_KEY = userdata.get('api_key')
-import os
 
-HF_TOKEN_F = os.getenv('HF_TOKEN_F')
-API_KEY = os.getenv('api_key')
+from vars import HF_TOKEN_F
 
 """### data"""
-from apiclient.discovery import build
-
-youtube = build('youtube', 'v3', developerKey=API_KEY)
-
-
-class Data_gen:
-    videos = []
-
-    _youtube = None
-
-    def __init__(self, youtube):
-        self._youtube = youtube
-
-    def get_all_videos_from_youtube_chanel_that_is_on_native_lang(self, channel_id):
-
-        res = self._youtube.channels().list(id=channel_id,
-                                            part='contentDetails').execute()
-
-        playlist_id = res['items'][0]['contentDetails']['relatedPlaylists']['uploads']
-
-        next_page_token = None
-
-        while True:
-            res = self._youtube.playlistItems().list(playlistId=playlist_id,
-                                                     part='snippet',
-                                                     maxResults=50,
-                                                     pageToken=next_page_token).execute()
-            self.videos += res['items']
-            next_page_token = res.get('nextPageToken')
-
-            if next_page_token is None:
-                break
-
-        return self.videos
-
-    def get_titles_of_videos_data(self, amount=500, get_all=False):
-        if (get_all):
-            r = self.videos.copy()
-        else:
-            r = self.videos.copy()[:amount]
-        for i in range(len(r)):
-            r[i] = self.videos[i]['snippet']['title']
-        return r
-
-
-data_gen = Data_gen(
-    youtube=youtube
-)
+from data import data_gen
 
 """
 ### models
@@ -306,8 +260,7 @@ def imp_func(youtube_chanel_id, rate=0.75, amount_of_max_videos=500, get_all=Fal
 
 # !pip install plotly==5.22.0
 
-import os
-import gradio as gr
+
 
 
 # import matplotlib.cm as cm
@@ -324,7 +277,7 @@ def get_pipeline_prediction(channel_id, rate: float, amount_of_videos):
     pipeline_output = imp_func(youtube_chanel_id=channel_id, amount_of_max_videos=amount_of_videos, rate=rate,
                                get_all=False)
 
-    res = []
+    res = dict()
 
     from random import randint
 
@@ -339,9 +292,12 @@ def get_pipeline_prediction(channel_id, rate: float, amount_of_videos):
     #   print(node)
     # #/b
 
+    count_for_dict = 1
     for i in pipeline_output['clusters']:
-        res.append(i)
-        res.append(["______"])
+        # res.append(i)
+        res[count_for_dict] = i
+        # res.append(["______"])
+    res_json = json.dumps(res)
 
     pipeline_output['graph_pyvis'].show_buttons(filter_=['physics'])
     pipeline_output['graph_pyvis'].save_graph("networkx-pyvis.html")
@@ -369,7 +325,7 @@ def get_pipeline_prediction(channel_id, rate: float, amount_of_videos):
     print(f"___DEBUG___/ get_pipeline_prediction( {channel_id},{rate},{amount_of_videos} )/ RES:{res}")
 
     # f = open("networkx-pyvis.html")
-    return (res, "networkx-pyvis.html")
+    return (res_json, "networkx-pyvis.html")
 
     # HTML(filename="networkx-pyvis.html")
 

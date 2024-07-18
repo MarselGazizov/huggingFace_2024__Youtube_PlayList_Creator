@@ -2,8 +2,11 @@ from sentence_transformers import SentenceTransformer
 from sentence_transformers import util
 import random
 from threading import Semaphore, Thread
+import logging
 
 from transformers import pipeline
+
+DEF_RATE_IN_MTRX = 0.7
 
 ########################################
 
@@ -48,17 +51,19 @@ def get_embeddings_from_sentences(sentences):
 def how_similar_sentences(sentences):
     r = get_embeddings_from_sentences(sentences)
     # return model.similarity(r,r)
-    return util.cos_sim(r, r)
+    mtrx = util.cos_sim(r, r)
+    logging.info(f"\n mtrx: {mtrx} \n")
+    return mtrx
 
 
-def get_most_similar_sentences(sentences, rate_in_mtrx=0.7):
+def get_most_similar_sentences(sentences, rate_in_mtrx=DEF_RATE_IN_MTRX):
     mtrx = how_similar_sentences(sentences)
     arr_res = []
     # todo debug sentences
 
     s = Semaphore(1)
 
-    def fill_j(i):
+    def fill_j(i1):
 
         # #first version
         # arr = []
@@ -89,14 +94,14 @@ def get_most_similar_sentences(sentences, rate_in_mtrx=0.7):
         max_eq = 0
         max_index = [-1, -1]
         # rand = random.random()
-        for j in range(i + 1, len(sentences)):
+        for j in range(i1 + 1, len(sentences)):
             # print(f"potok with r={rand}, max_eq={max_eq}")
-            if (i == j):
-                print("ERROR")
-            if (mtrx[i][j] >= rate_in_mtrx and mtrx[i][j] > max_eq):
+            if i1 == j:
+                logging.error("Error_1")
+            if mtrx[i1][j] >= rate_in_mtrx and mtrx[i1][j] > max_eq:
                 # arr.append([sentences[i],sentences[j]])
-                max_eq = mtrx[i][j]
-                max_index = [i, j]
+                max_eq = mtrx[i1][j]
+                max_index = [i1, j]
         # arr.append((sentences[max_index[0]],sentences[max_index[1]]))
         # arr.sort()
         # s.acquire()
@@ -104,17 +109,17 @@ def get_most_similar_sentences(sentences, rate_in_mtrx=0.7):
         # arr_res.add(arr)
         # print(f"potok ext arr_res with: {arr}\n")
         # s.release()
-        if (max_index[0] != -1 and max_index[1] != -1):
-            if (max_index[0] == max_index[1]):
-                print("ERROR_2")
+        if max_index[0] != -1 and max_index[1] != -1:
+            if max_index[0] == max_index[1]:
+                logging.error("Error_2")
             t = [sentences[max_index[0]], sentences[max_index[1]]]
-            if (sentences[max_index[0]] == sentences[max_index[1]]):
-                print(
+            if sentences[max_index[0]] == sentences[max_index[1]]:
+                logging.error(
                     f"ERROR_3: {sentences[max_index[0]] == sentences[max_index[1]]}, i={max_index[0]}, j={max_index[1]}")
             else:
                 s.acquire()
                 arr_res.append(t)
-                print(f"potok ext arr_res with: {t}\n")
+                logging.info(f"potok ext arr_res with: {t} \n")
                 s.release()
 
     threads = []
