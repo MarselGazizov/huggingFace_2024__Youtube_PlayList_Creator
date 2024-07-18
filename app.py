@@ -1,6 +1,7 @@
 import json
 
 import gradio as gr
+import pandas as pd
 
 """
 For more information on `huggingface_hub` Inference API support, please check the docs: https://huggingface.co/docs/huggingface_hub/v0.22.2/en/guides/inference
@@ -176,11 +177,24 @@ def get_pipeline_prediction(channel_id, rate: float, amount_of_videos):
     # #/b
 
     count_for_dict = 1
+    clusters_in_series_form = dict()
     for i in pipeline_output['clusters']:
         # res.append(i)
-        res[count_for_dict] = i
+        # todo
+        name = "just_name"
+        clusters_in_series_form[name] = i
+        # res[count_for_dict] = i
         # res.append(["______"])
-    res_json = json.dumps(res)
+    df_clusters = pd.concat(clusters_in_series_form, axis=1)
+    df_clusters = df_clusters.fillna("")
+
+    # res_json = json.dumps(res)
+
+    def save_json(json_text, output_filename):
+        with open(output_filename, 'w', encoding='utf-8') as outfile:
+            json.dump(json_text, outfile, ensure_ascii=False)
+
+    # save_json(df_clusters, "clusters.json")
 
     pipeline_output['graph_pyvis'].show_buttons(filter_=['physics'])
     pipeline_output['graph_pyvis'].save_graph("networkx-pyvis.html")
@@ -208,7 +222,7 @@ def get_pipeline_prediction(channel_id, rate: float, amount_of_videos):
     print(f"___DEBUG___/ get_pipeline_prediction( {channel_id},{rate},{amount_of_videos} )/ RES:{res}")
 
     # f = open("networkx-pyvis.html")
-    return (res_json, "networkx-pyvis.html")
+    return (gr.DataFrame(df_clusters), "networkx-pyvis.html")
 
     # HTML(filename="networkx-pyvis.html")
 
@@ -218,7 +232,7 @@ def get_pipeline_prediction(channel_id, rate: float, amount_of_videos):
 demo = gr.Interface(
     fn=get_pipeline_prediction,
     inputs=[gr.Text(label="channel id", type="text"), gr.Slider(0, 1, step=0.05, value=0.8), gr.Number()],
-    outputs=[gr.Text(type="text"), gr.File(file_types=[".html"])]
+    outputs=[gr.DataFrame(), gr.File(file_types=[".html"])]
 )
 
 # demo = gr.Blocks()
