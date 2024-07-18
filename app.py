@@ -138,6 +138,7 @@ def imp_func(youtube_chanel_id, rate=0.75, amount_of_max_videos=500, get_all=Fal
 
     log.debug(f"printing colorized graph")
     nx.draw(colorized_graph)
+    log.debug(f"nodes of col_gr: {colorized_graph.nodes}")
 
     # import gc
     # del model_sent_embedding
