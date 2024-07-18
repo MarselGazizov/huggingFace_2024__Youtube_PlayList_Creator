@@ -93,7 +93,7 @@ logging.set_verbosity_error()
 
 
 """### data"""
-from app.data import data_gen
+from app_dir.data import data_gen
 
 """
 ### models
@@ -112,8 +112,8 @@ from app.data import data_gen
 """#### summarization"""
 
 """### graphs"""
-from app.graphs import get_graphs_and_cmp_sv
-from app.graphs import get_clusters
+from app_dir.graphs import get_graphs_and_cmp_sv
+from app_dir.graphs import get_clusters
 
 """### wrappers for models"""
 
