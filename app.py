@@ -4,6 +4,11 @@ import gradio as gr
 import pandas as pd
 import logging
 
+"""logger"""
+logging.basicConfig()
+handle = "app"
+log = logging.getLogger(handle)
+
 """
 For more information on `huggingface_hub` Inference API support, please check the docs: https://huggingface.co/docs/huggingface_hub/v0.22.2/en/guides/inference
 """
@@ -138,7 +143,7 @@ def imp_func(youtube_chanel_id, rate=0.75, amount_of_max_videos=500, get_all=Fal
     dict_res['clusters'] = clusters
 
     # logging.debug(f"\nimp_func( {youtube_chanel_id},{rate},{amount_of_max_videos},{get_all} )")
-    logging.debug(f"\ndict_res:{dict_res}\n")
+    log.debug(f"\ndict_res:{dict_res}\n")
 
     return dict_res
 

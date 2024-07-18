@@ -8,6 +8,10 @@ from transformers import pipeline
 
 DEF_RATE_IN_MTRX = 0.7
 
+"""logging"""
+handle = "emb_model"
+log = logging.getLogger(handle)
+
 ########################################
 
 # model 1:
@@ -52,7 +56,7 @@ def how_similar_sentences(sentences):
     r = get_embeddings_from_sentences(sentences)
     # return model.similarity(r,r)
     mtrx = util.cos_sim(r, r)
-    logging.info(f"\n mtrx: {mtrx} \n")
+    log.info(f"\n mtrx: {mtrx} \n")
     return mtrx
 
 
@@ -97,7 +101,7 @@ def get_most_similar_sentences(sentences, rate_in_mtrx=DEF_RATE_IN_MTRX):
         for j in range(i1 + 1, len(sentences)):
             # print(f"potok with r={rand}, max_eq={max_eq}")
             if i1 == j:
-                logging.error("Error_1")
+                log.error("Error_1")
             if mtrx[i1][j] >= rate_in_mtrx and mtrx[i1][j] > max_eq:
                 # arr.append([sentences[i],sentences[j]])
                 max_eq = mtrx[i1][j]
@@ -111,15 +115,15 @@ def get_most_similar_sentences(sentences, rate_in_mtrx=DEF_RATE_IN_MTRX):
         # s.release()
         if max_index[0] != -1 and max_index[1] != -1:
             if max_index[0] == max_index[1]:
-                logging.error("Error_2")
+                log.error("Error_2")
             t = [sentences[max_index[0]], sentences[max_index[1]]]
             if sentences[max_index[0]] == sentences[max_index[1]]:
-                logging.error(
+                log.error(
                     f"ERROR_3: {sentences[max_index[0]] == sentences[max_index[1]]}, i={max_index[0]}, j={max_index[1]}")
             else:
                 s.acquire()
                 arr_res.append(t)
-                logging.info(f"potok ext arr_res with: {t} \n")
+                log.info(f"potok ext arr_res with: {t} \n")
                 s.release()
 
     threads = []
@@ -131,9 +135,9 @@ def get_most_similar_sentences(sentences, rate_in_mtrx=DEF_RATE_IN_MTRX):
     for t in threads:
         t.join()
 
-    logging.info(f"\nlen(threads): {len(threads)}\n")
+    log.info(f"\nlen(threads): {len(threads)}\n")
 
     for t in threads:
-        logging.info(f"t.is_alive(): {t.is_alive()}")
+        log.info(f"t.is_alive(): {t.is_alive()}")
 
     return arr_res

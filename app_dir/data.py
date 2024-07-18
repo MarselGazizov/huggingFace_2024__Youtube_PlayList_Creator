@@ -6,19 +6,20 @@ import logging
 
 from app_dir.api_vars import API_KEY
 
-
 #
+""""logging"""
+handle = "data"
+log = logging.getLogger(handle)
 
 
 class DataGen:
-
     _youtube = None
 
     def __init__(self, youtube):
         self._youtube = youtube
 
     def get_all_videos_from_youtube_chanel_that_is_on_native_lang(self, channel_id):
-        logging.info("start of func")
+        log.info("start of func")
 
         videos = []
 
@@ -43,14 +44,14 @@ class DataGen:
         return videos
 
     def get_titles_of_videos_data(self, channel_id, amount=500, get_all=False):
-        logging.info("start of func")
+        log.info("start of func")
         if get_all:
             r = self.get_all_videos_from_youtube_chanel_that_is_on_native_lang(channel_id)
         else:
             r = self.get_all_videos_from_youtube_chanel_that_is_on_native_lang(channel_id)[:amount]
         for i in range(len(r)):
             r[i] = r[i]['snippet']['title']
-        logging.info(f"len(res) = {len(r)}")
+        log.info(f"len(res) = {len(r)}")
         return r
 
 
