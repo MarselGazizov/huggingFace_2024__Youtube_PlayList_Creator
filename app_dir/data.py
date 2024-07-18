@@ -7,9 +7,10 @@ import logging
 from app_dir.api_vars import API_KEY
 
 #
-""""logging"""
-handle = "data"
-log = logging.getLogger(handle)
+"""logger"""
+from app_dir.logger import get_logger
+
+log = get_logger("data", logging.INFO)
 
 
 class DataGen:

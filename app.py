@@ -5,9 +5,9 @@ import pandas as pd
 import logging
 
 """logger"""
-logging.basicConfig()
-handle = "app"
-log = logging.getLogger(handle)
+from app_dir.logger import get_logger
+
+log = get_logger("app", logging.INFO)
 
 """
 For more information on `huggingface_hub` Inference API support, please check the docs: https://huggingface.co/docs/huggingface_hub/v0.22.2/en/guides/inference
