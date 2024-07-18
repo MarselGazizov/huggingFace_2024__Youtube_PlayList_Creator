@@ -14,12 +14,12 @@ pinned: false
 Application to gather videos from Youtube into Groups
 
 ![GitHub](https://img.shields.io/github/license/MarselGazizov/huggingFace_2024__Youtube_PlayList_Creator)
+![GitHub top language](https://img.shields.io/github/languages/top//MarselGazizov/huggingFace_2024__Youtube_PlayList_Creator)
 ![GitHub Repo stars](https://img.shields.io/github/stars/MarselGazizov/huggingFace_2024__Youtube_PlayList_Creator)
 ![GitHub issues](https://img.shields.io/github/issues/MarselGazizov/huggingFace_2024__Youtube_PlayList_Creator)
 
 ```
 ![Static Badge](https://img.shields.io/badge//MarselGazizov/huggingFace_2024__Youtube_PlayList_Creator)
-![GitHub top language](https://img.shields.io/github/languages/top//MarselGazizov/huggingFace_2024__Youtube_PlayList_Creator)
 ```
 
 ```
