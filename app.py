@@ -140,6 +140,7 @@ def imp_func(youtube_chanel_id, rate=0.75, amount_of_max_videos=500, get_all=Fal
     # gc.collect()
 
     dict_res = {}
+    dict_res['graph_nx'] = gr_res['graph_nx']
     dict_res['graph_pyvis'] = gr_res['graph_pyvis']
     dict_res['clusters'] = clusters
 
@@ -218,6 +219,10 @@ def get_pipeline_prediction(channel_id, rate: float, amount_of_videos):
             json.dump(json_text, outfile, ensure_ascii=False)
 
     # save_json(df_clusters, "clusters.json")
+
+    # todo delete pyvis vars
+    
+    pipeline_output['graph_pyvis'].from_nx(pipeline_output['graph_nx'])
 
     pipeline_output['graph_pyvis'].show_buttons(filter_=['physics'])
     # options = """const options = {
