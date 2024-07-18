@@ -6,7 +6,7 @@ import logging
 
 """logger"""
 from app_dir.logger import get_logger
-
+logging.basicConfig()
 log = get_logger("app")
 
 """
