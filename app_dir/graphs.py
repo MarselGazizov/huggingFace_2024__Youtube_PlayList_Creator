@@ -14,25 +14,26 @@ from pyvis.network import Network
 from app_dir.models.emb_model import get_most_similar_sentences
 
 
-def get_graphs_and_cmp_sv(sentences_to_comp, rate):
+def get_nx_graph_and_cmps_sv(sentences_to_comp, rate):
     graph = nx.Graph()
     graph.add_nodes_from(sentences_to_comp)
-    edjes = get_most_similar_sentences(sentences_to_comp, rate)
-    graph.add_edges_from(edjes)
+    edges = get_most_similar_sentences(sentences_to_comp, rate)
+    graph.add_edges_from(edges)
 
     dict_res = {
-        "comp_sv": list(nx.connected_components(graph)),
-        "amount_of_comp_sv": nx.number_connected_components(graph),
+        "comps_sv": list(nx.connected_components(graph)),
         "graph_nx": graph
     }
 
-    net = Network(notebook=True, cdn_resources='remote')
-    net.add_nodes(sentences_to_comp)
-    net.add_edges(edjes)
-
-    dict_res['graph_pyvis'] = net
+    # dict_res['graph_pyvis'] = net
 
     return dict_res
+
+
+def get_pyvis_graph_from_nx_graph(nx_graph):
+    net = Network(notebook=True, cdn_resources='remote')
+    net.from_nx(nx_graph)
+    return net
 
 
 # pip install community
@@ -69,11 +70,13 @@ def get_clusters_and_colorized_graph(graph_nx: Graph):
 
     for node in graph_nx:
         if partition[node] in cl_id__color__dict:
-            cluster_id = partition[node]
-            color = cl_id__color__dict[cluster_id]
-            color_map.append(color)
+            # cluster_id = partition[node]
+            # color = cl_id__color__dict[cluster_id]
+            # color_map.append(color)
+            graph_nx.nodes[node]['color'] = cl_id__color__dict[partition[node]]
         else:
-            color_map.append("fff5eb")
+            # color_map.append("fff5eb")
+            graph_nx.nodes[node]['color'] = "#ffffff"
 
-    nx.draw(graph_nx, node_color=color_map, with_labels=True)
+    # nx.draw(graph_nx, node_color=color_map, with_labels=True)
     return clusters, graph_nx

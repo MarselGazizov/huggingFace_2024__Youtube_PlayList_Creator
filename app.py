@@ -120,33 +120,40 @@ from app_dir.data import data_gen
 """#### summarization"""
 
 """### graphs"""
-from app_dir.graphs import get_graphs_and_cmp_sv
+from app_dir.graphs import get_nx_graph_and_cmps_sv
 from app_dir.graphs import get_clusters_and_colorized_graph
 
 """### wrappers for models"""
 
-
+"""
+:returns dict{
+    graph_nx: networkx graph,
+    # graph_pyvis: pyvis graph,
+    clusters: clusters
+}
+"""
 def imp_func(youtube_chanel_id, rate=0.75, amount_of_max_videos=500, get_all=False):
     # videos = data_gen.get_all_videos_from_youtube_chanel_that_is_on_native_lang(channel_id=youtube_chanel_id)
     videos_to_comp = data_gen.get_titles_of_videos_data(channel_id=youtube_chanel_id, amount=amount_of_max_videos,
                                                         get_all=get_all)
 
-    gr_res = get_graphs_and_cmp_sv(videos_to_comp, rate)
-    (clusters, colorized_graph) = get_clusters_and_colorized_graph(gr_res['graph_nx'])
-    # gr_res['graph_nx'] = colorized_graph
+    nx_graph_and_cmps_sv = get_nx_graph_and_cmps_sv(videos_to_comp, rate)
+    (clusters, colorized_graph) = get_clusters_and_colorized_graph(nx_graph_and_cmps_sv['graph_nx'])
+    # nx_graph_and_cmps_sv['graph_nx'] = colorized_graph
+
     # print(clusters)
 
-    log.debug(f"printing colorized graph")
-    nx.draw(colorized_graph)
-    log.debug(f"nodes of col_gr: {colorized_graph.nodes}")
+    # log.debug(f"printing colorized graph")
+    # nx.draw(colorized_graph)
+    # log.debug(f"nodes of col_gr: {colorized_graph.nodes}")
 
     # import gc
     # del model_sent_embedding
     # gc.collect()
 
     dict_res = {}
-    dict_res['graph_nx'] = gr_res['graph_nx']
-    dict_res['graph_pyvis'] = gr_res['graph_pyvis']
+    dict_res['graph_nx'] = colorized_graph
+    # dict_res['graph_pyvis'] = nx_graph_and_cmps_sv['graph_pyvis']
     dict_res['clusters'] = clusters
 
     def get_beaut_str_2d_arr(arr):
@@ -160,7 +167,7 @@ def imp_func(youtube_chanel_id, rate=0.75, amount_of_max_videos=500, get_all=Fal
     # logging.debug(f"\nimp_func( {youtube_chanel_id},{rate},{amount_of_max_videos},{get_all} )")
     # log.debug(f"\ndict_res:{dict_res}\n")
     log.info(f"dict_res:"
-             f"graph_pyvis: {dict_res['graph_pyvis'].__repr__()}\n"
+             # f"graph_pyvis: {dict_res['graph_pyvis'].__repr__()}\n"
              f"clusters: {get_beaut_str_2d_arr(dict_res['clusters'])}")
 
     return dict_res
@@ -183,27 +190,27 @@ def imp_func(youtube_chanel_id, rate=0.75, amount_of_max_videos=500, get_all=Fal
 #     return color_hex
 
 def get_pipeline_prediction(channel_id, rate: float, amount_of_videos):
-    pipeline_output = imp_func(youtube_chanel_id=channel_id, amount_of_max_videos=amount_of_videos, rate=rate,
-                               get_all=False)
+    res_of_app = imp_func(youtube_chanel_id=channel_id, amount_of_max_videos=amount_of_videos, rate=rate,
+                          get_all=False)
 
     res = dict()
 
     from random import randint
 
     colors = []
-    n = len(pipeline_output['clusters'])
+    n = len(res_of_app['clusters'])
 
     for i in range(n):
         colors.append('#%06X' % randint(0, 0xFFFFFF))
 
     # #b
-    # for node in pipeline_output['graph_pyvis'].get_nodes():
+    # for node in res_of_app['graph_pyvis'].get_nodes():
     #   print(node)
     # #/b
 
     count_for_dict = 1
     clusters_in_series_form = dict()
-    for i in pipeline_output['clusters']:
+    for i in res_of_app['clusters']:
         # res.append(i)
         # todo
         name = "just_name_"
@@ -226,10 +233,24 @@ def get_pipeline_prediction(channel_id, rate: float, amount_of_videos):
     # save_json(df_clusters, "clusters.json")
 
     # todo delete pyvis vars
-    
-    pipeline_output['graph_pyvis'].from_nx(pipeline_output['graph_nx'])
+    from pyvis.network import Network
+    # net = Network()
+    #
+    # net.from_nx(res_of_app['graph_nx'])
 
-    pipeline_output['graph_pyvis'].show_buttons(filter_=['physics'])
+    from app_dir.graphs import get_pyvis_graph_from_nx_graph
+
+    pyvis_graph = get_pyvis_graph_from_nx_graph(res_of_app['graph_nx'])
+
+    # node_colors = nx.get_node_attributes(res_of_app['graph_pyvis'], 'color')
+    # log.debug(f"node_colors: {node_colors}")
+
+    # Draw the graph with node colors
+    # pos = nx.spring_layout(res_of_app['graph_pyvis'])
+    # nx.draw_networkx(res_of_app['graph_pyvis'], pos, node_color=list(node_colors.values()), with_labels=True)
+    # plt.show()
+
+    pyvis_graph.show_buttons(filter_=['physics', 'nodes'])
     # options = """const options = {
     #     "physics": {
     #         "barnesHut": {
@@ -238,8 +259,8 @@ def get_pipeline_prediction(channel_id, rate: float, amount_of_videos):
     #         "minVelocity": 0.75
     #     }
     # }"""
-    # pipeline_output['graph_pyvis'].set_options(options)
-    pipeline_output['graph_pyvis'].save_graph("networkx-pyvis.html")
+    # res_of_app['graph_pyvis'].set_options(options)
+    pyvis_graph.save_graph("networkx-pyvis.html")
     # f = open("networkx-pyvis.html")
 
     # # colorizing graph
