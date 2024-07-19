@@ -105,12 +105,17 @@ def get_clusters_and_colorized_graph__version_with_groups(graph_nx: Graph):
             clusters.append(nodes)
 
     for node in graph_nx:
-        if partition[node] in cl_id__group_number__dict:
-            l = cl_id__group_number__dict[partition[node]]
-        else:
+        neighbours = graph_nx.neighbors(node)
+        # if partition[node] in cl_id__group_number__dict:
+        #     l = cl_id__group_number__dict[partition[node]]
+        # else:
+        #     l = -1
+        l = cl_id__group_number__dict[partition[node]]
+        if len(neighbours) == 0:
             l = -1
+
         graph_nx.nodes[node]['group'] = l
         graph_nx.nodes[node]['title'] = f"group: {l}\n"
-        graph_nx.nodes[node]['title'] += f"neighbours: {l}\n"
+        graph_nx.nodes[node]['title'] += f"neighbours: {neighbours}\n"
 
     return clusters, graph_nx
