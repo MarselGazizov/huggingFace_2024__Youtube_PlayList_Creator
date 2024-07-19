@@ -107,7 +107,7 @@ def get_clusters_and_colorized_graph__version_with_groups(graph_nx: Graph):
     for node in graph_nx:
         if partition[node] in cl_id__group_number__dict:
             graph_nx.nodes[node]['group'] = cl_id__group_number__dict[partition[node]]
-            graph_nx.nodes[node]['title'] += f"group: {cl_id__group_number__dict[partition[node]]}\n"
+            graph_nx.nodes[node]['title'] = f"group: {cl_id__group_number__dict[partition[node]]}\n"
             graph_nx.nodes[node]['title'] += f"neighbours: {cl_id__group_number__dict[partition[node]]}\n"
         else:
             graph_nx.nodes[node]['group'] = -1
