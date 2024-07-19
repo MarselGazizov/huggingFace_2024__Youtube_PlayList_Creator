@@ -15,7 +15,7 @@ def get__matrix__hist_of_matrix_nums(sentences):
 
         arr = []
         for j in range(i1 + 1, len(sentences)):
-            arr.append(mtrx[i1][j])
+            arr.append(int(mtrx[i1][j]))
 
         s.acquire()
         numbers_in_matrix.extend(arr)
