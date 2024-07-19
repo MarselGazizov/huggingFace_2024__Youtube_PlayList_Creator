@@ -212,10 +212,13 @@ def get_pipeline_prediction(channel_id, rate: float, amount_of_videos):
     count_for_dict = 1
     clusters_in_series_form = dict()
     for i in res_of_app['clusters']:
+        example_node = i[0]
+        group_name = res_of_app['graph_nx'].nodes[example_node]['group']
         # res.append(i)
         # todo
         name = "just_name_"
-        clusters_in_series_form[name + str(count_for_dict)] = pd.Series(i)
+        name = name + group_name
+        clusters_in_series_form[name] = pd.Series(i)
         count_for_dict += 1
         # res[count_for_dict] = i
         # res.append(["______"])
