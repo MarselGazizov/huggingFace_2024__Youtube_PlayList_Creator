@@ -29,7 +29,7 @@ with gr.Blocks() as demo:
     with gr.Tab("Analyze embedding matrix"):
         # out
         with gr.Row():
-            matrx = gr.Image()
+            matrx = gr.Text()
             hist_plot = gr.Plot()
         # butt
         show_matrix_and_hist_plot = gr.Button("show_matrix_and_hist_plot")
