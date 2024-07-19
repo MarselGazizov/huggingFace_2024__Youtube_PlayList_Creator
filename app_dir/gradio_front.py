@@ -13,16 +13,21 @@ with gr.Blocks() as demo:
     # gr.Markdown("Flip text or image files using this demo.")
 
     # in
-    channel_id = gr.Text(label="channel id", type="text")
-    amount_of_videos = gr.Number(label="amount_of_videos")
+    channel_id = gr.Text(label="channel id", type="text", value='UCansLl8T6imFHqOhfXoAHmg', info="WRITE OWN CHANNEL ID")
+    amount_of_videos = gr.Slider(0, 2000, step=1, value=200, label="amount_of_videos",
+                                 info="WRITE AMOUNT OF VIDEOS OR BIGGER")
+
+    rate = gr.Slider(0, 1, step=0.05, value=0.8,
+                     info="CHOOSE RATE WITH 'Analyze embedding matrix' SECTION. "
+                          "'rate' - INFLUENCE ON WHICH NODES HAs EDGES")
 
     with gr.Tab("Main"):
         # in
-        rate = gr.Slider(0, 1, step=0.05, value=0.8)
+        # rate = gr.Slider(0, 1, step=0.05, value=0.8)
         # out
-        with gr.Row():
-            table_output = gr.DataFrame()
-            graph_file_output = gr.File(file_types=[".html"])
+        # with gr.Row():
+        table_output = gr.DataFrame()
+        graph_file_output = gr.File(file_types=[".html"])
         # butt
         group_videos_from_channel = gr.Button("group_videos_from_channel")
 
