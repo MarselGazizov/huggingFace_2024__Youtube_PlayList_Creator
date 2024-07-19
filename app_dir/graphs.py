@@ -130,6 +130,7 @@ def get_clusters_and_colorized_graph__version_with_groups(graph_nx: Graph):
 
         graph_nx.nodes[node]['group'] = l
         graph_nx.nodes[node]['title'] = f"group: {l}\n"
-        graph_nx.nodes[node]['title'] += f"neighbours: {neighbours2dsds}\n"
+        s = '\n'.join(map(str, neighbours2))
+        graph_nx.nodes[node]['title'] += f"neighbours: {s}\n"
 
     return clusters, graph_nx
