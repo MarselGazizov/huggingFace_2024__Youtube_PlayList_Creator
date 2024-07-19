@@ -32,6 +32,7 @@ def get__matrix__hist_of_matrix_nums(sentences):
 
     print(f"res array: {type(numbers_in_matrix[0])}")
 
-    hist = plt.hist(numbers_in_matrix)
+    fig = plt.figure()
+    plt.hist(numbers_in_matrix)
 
-    return mtrx, hist
+    return mtrx, fig
