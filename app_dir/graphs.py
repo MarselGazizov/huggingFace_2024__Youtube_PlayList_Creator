@@ -11,13 +11,26 @@ from networkx import Graph
 
 from pyvis.network import Network
 
-from app_dir.models.emb_model import get_most_similar_sentences
+from app_dir.models.emb_model import get_most_similar_sentences__version_pl_1
+from app_dir.models.emb_model import get_most_similar_sentences__version_3d_1
+
+import enum
 
 
-def get_nx_graph_and_cmps_sv(sentences_to_comp, rate):
+class GraphMode(enum.Enum):
+    mode_3d = 2
+    mode_planarn_1 = 1
+
+
+def get_nx_graph_and_cmps_sv(sentences_to_comp, rate, type_of_graph: GraphMode):
     graph = nx.Graph()
     graph.add_nodes_from(sentences_to_comp)
-    edges = get_most_similar_sentences(sentences_to_comp, rate)
+
+    if type_of_graph == GraphMode.mode_planarn_1:
+        edges = get_most_similar_sentences__version_pl_1(sentences_to_comp, rate)
+    if type_of_graph == GraphMode.mode_3d:
+        edges = get_most_similar_sentences__version_3d_1(sentences_to_comp, rate)
+
     graph.add_edges_from(edges)
 
     dict_res = {
@@ -117,6 +130,6 @@ def get_clusters_and_colorized_graph__version_with_groups(graph_nx: Graph):
 
         graph_nx.nodes[node]['group'] = l
         graph_nx.nodes[node]['title'] = f"group: {l}\n"
-        graph_nx.nodes[node]['title'] += f"neighbours: {neighbours2}\n"
+        graph_nx.nodes[node]['title'] += f"neighbours: {neighbours2dsds}\n"
 
     return clusters, graph_nx
