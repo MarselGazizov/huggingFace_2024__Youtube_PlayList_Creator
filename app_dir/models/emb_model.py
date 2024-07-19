@@ -177,7 +177,7 @@ def get_most_similar_sentences__version_3d_1(sentences, rate_in_mtrx=DEF_RATE_IN
         # todo fix array indexes
         s.acquire()
         arr_res.extend(arr)
-        print(f"potok ext arr_res with: {arr}\n")
+        log.debug(f"potok ext arr_res with: {arr}\n")
         s.release()
 
         # second version

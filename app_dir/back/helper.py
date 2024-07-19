@@ -30,8 +30,6 @@ def get__matrix__hist_of_matrix_nums(sentences):
     for t in threads:
         t.join()
 
-    print(f"res array: {type(numbers_in_matrix[0])}")
-
     fig = plt.figure()
     plt.hist(numbers_in_matrix)
 
