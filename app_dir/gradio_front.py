@@ -14,7 +14,7 @@ with gr.Blocks() as demo:
 
     # in
     channel_id = gr.Text(label="channel id", type="text")
-    amount_of_videos = gr.Number()
+    amount_of_videos = gr.Number(label="rate")
 
     with gr.Tab("Main"):
         # in
