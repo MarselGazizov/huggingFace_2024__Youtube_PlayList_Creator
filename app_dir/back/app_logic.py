@@ -1,4 +1,8 @@
+import io
 import json
+from io import StringIO
+from typing import Callable
+
 import pandas as pd
 
 from app_dir.back.helper import get__matrix__hist_of_matrix_nums
@@ -133,16 +137,27 @@ def get_pipeline_prediction(channel_id, rate: float, amount_of_videos):
     # plt.show()
 
     pyvis_graph.show_buttons(filter_=['physics', 'nodes'])
-    # options = """const options = {
-    #     "physics": {
-    #         "barnesHut": {
-    #             "gravitationalConstant": -28050
-    #         },
-    #         "minVelocity": 0.75
-    #     }
-    # }"""
-    # res_of_app['graph_pyvis'].set_options(options)
-    pyvis_graph.save_graph("networkx-pyvis.html")
+    #     options = """
+    # const options = {
+    #   "physics": {
+    #     "barnesHut": {
+    #       "gravitationalConstant": -27600
+    #     },
+    #     "minVelocity": 0.75
+    #   }
+    # }
+    #     """
+    #     pyvis_graph.set_options(options)
+
+    # pyvis_graph.save_graph("networkx-pyvis.html")
+
+    name_of_file_with_pyvis_graph = "networkx-pyvis.html"
+    html_str = pyvis_graph.generate_html()
+    with open(name_of_file_with_pyvis_graph, "w", encoding="utf-8") as f:
+        f.write(html_str)
+
+    # log.debug(f"html: {html}")
+    #
     # f = open("networkx-pyvis.html")
 
     # # colorizing graph
@@ -168,4 +183,4 @@ def get_pipeline_prediction(channel_id, rate: float, amount_of_videos):
 
     # f = open("networkx-pyvis.html")
     # todo it was changed from gr.df
-    return (df_clusters, "networkx-pyvis.html")
+    return df_clusters, name_of_file_with_pyvis_graph
