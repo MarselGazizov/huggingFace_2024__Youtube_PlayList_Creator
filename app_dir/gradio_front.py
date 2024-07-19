@@ -1,6 +1,6 @@
 import gradio as gr
 
-from app import get_pipeline_prediction
+from app_dir.app_logic import get_pipeline_prediction
 from app_dir.models.emb_model import get_matrix_and_hist
 
 # demo = gr.Interface(
