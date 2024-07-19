@@ -117,6 +117,6 @@ def get_clusters_and_colorized_graph__version_with_groups(graph_nx: Graph):
 
         graph_nx.nodes[node]['group'] = l
         graph_nx.nodes[node]['title'] = f"group: {l}\n"
-        graph_nx.nodes[node]['title'] += f"neighbours: {neighbours}\n"
+        graph_nx.nodes[node]['title'] += f"neighbours: {neighbours2}\n"
 
     return clusters, graph_nx
