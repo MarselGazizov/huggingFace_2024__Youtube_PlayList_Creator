@@ -1,7 +1,6 @@
 import gradio as gr
 
-from app_dir.app_logic import get_pipeline_prediction
-from app_dir.models.emb_model import get_matrix_and_hist
+from app_dir.back.app_logic import get_pipeline_prediction, get_matrix_and_hist_plot
 
 # demo = gr.Interface(
 #     fn=get_pipeline_prediction,
@@ -50,6 +49,6 @@ with gr.Blocks() as demo:
     group_videos_from_channel.click(get_pipeline_prediction,
                                     inputs=[channel_id, rate, amount_of_videos],
                                     outputs=[table_output, graph_file_output])
-    show_matrix_and_hist_plot.click(get_matrix_and_hist,
+    show_matrix_and_hist_plot.click(get_matrix_and_hist_plot,
                                     inputs=[channel_id, amount_of_videos],
                                     outputs=[matrx, hist_plot])

@@ -1,20 +1,18 @@
 import json
-
 import pandas as pd
 
-from app_dir.models.emb_model import get_matrix_and_hist
+from app_dir.back.helper import get__matrix__hist_of_matrix_nums
 from app_dir.data import data_gen
 from app_dir.graphs import get_nx_graph_and_cmps_sv, get_clusters_and_colorized_graph__version_with_groups, GraphMode
-
 from app_dir.logger import get_logger
 
 log = get_logger("app_logic")
 
 
-def send_to_client_matrix_and_hist(channel_id, amount_of_videos):
+def get_matrix_and_hist_plot(channel_id, amount_of_videos):
     videos_to_comp = data_gen.get_titles_of_videos_data(channel_id=channel_id,
                                                         amount=amount_of_videos)
-    return get_matrix_and_hist(videos_to_comp)
+    return get__matrix__hist_of_matrix_nums(videos_to_comp)
 
 
 """### wrappers for models"""

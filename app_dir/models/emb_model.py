@@ -144,33 +144,7 @@ def get_most_similar_sentences__version_pl_1(sentences, rate_in_mtrx=DEF_RATE_IN
     return arr_res
 
 
-def get_matrix_and_hist(sentences):
-    mtrx = how_similar_sentences(sentences)
 
-    numbers_in_matrix = []
-
-    s = Semaphore(1)
-
-    def fill_j(i1):
-
-        arr = []
-        for j in range(i1 + 1, len(sentences)):
-            arr.append([mtrx[i1], mtrx[j]])
-
-        s.acquire()
-        numbers_in_matrix.extend(arr)
-        s.release()
-
-    threads = []
-    for i in range(len(sentences)):
-        t1 = Thread(target=fill_j, args=(i,), daemon=True)
-        threads.append(t1)
-        t1.start()
-
-    for t in threads:
-        t.join()
-
-    return mtrx, numbers_in_matrix
 
 
 def get_most_similar_sentences__version_3d_1(sentences, rate_in_mtrx=DEF_RATE_IN_MTRX):
