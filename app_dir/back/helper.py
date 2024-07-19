@@ -15,7 +15,7 @@ def get__matrix__hist_of_matrix_nums(sentences):
 
         arr = []
         for j in range(i1 + 1, len(sentences)):
-            arr.append(int(mtrx[i1][j]))
+            arr.append(float(mtrx[i1][j]))
 
         s.acquire()
         numbers_in_matrix.extend(arr)
@@ -30,7 +30,7 @@ def get__matrix__hist_of_matrix_nums(sentences):
     for t in threads:
         t.join()
 
-    print(f"res array: {numbers_in_matrix}")
+    print(f"res array: {type(numbers_in_matrix[0])}")
 
     hist = plt.hist(numbers_in_matrix)
 
