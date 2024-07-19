@@ -111,7 +111,8 @@ def get_clusters_and_colorized_graph__version_with_groups(graph_nx: Graph):
         # else:
         #     l = -1
         l = cl_id__group_number__dict[partition[node]]
-        if len(neighbours) == 0:
+        neighbours2 = [n for n in neighbours]
+        if len(neighbours2) == 0:
             l = -1
 
         graph_nx.nodes[node]['group'] = l
