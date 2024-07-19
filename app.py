@@ -289,18 +289,15 @@ def get_pipeline_prediction(channel_id, rate: float, amount_of_videos):
     # logging.debug(f"\n{res}\n")
 
     # f = open("networkx-pyvis.html")
-    return (gr.DataFrame(df_clusters), "networkx-pyvis.html")
+    # todo it was changed from gr.df
+    return (df_clusters, "networkx-pyvis.html")
 
     # HTML(filename="networkx-pyvis.html")
 
     # return res
 
 
-demo = gr.Interface(
-    fn=get_pipeline_prediction,
-    inputs=[gr.Text(label="channel id", type="text"), gr.Slider(0, 1, step=0.05, value=0.8), gr.Number()],
-    outputs=[gr.DataFrame(), gr.File(file_types=[".html"])]
-)
+from app_dir.gradio_front import demo
 
 # demo = gr.Blocks()
 # with demo:
