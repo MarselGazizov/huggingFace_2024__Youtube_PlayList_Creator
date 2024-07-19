@@ -121,7 +121,7 @@ from app_dir.data import data_gen
 
 """### graphs"""
 from app_dir.graphs import get_nx_graph_and_cmps_sv
-from app_dir.graphs import get_clusters_and_colorized_graph
+from app_dir.graphs import get_clusters_and_colorized_graph__version_with_groups
 
 """### wrappers for models"""
 
@@ -138,7 +138,8 @@ def imp_func(youtube_chanel_id, rate=0.75, amount_of_max_videos=500, get_all=Fal
                                                         get_all=get_all)
 
     nx_graph_and_cmps_sv = get_nx_graph_and_cmps_sv(videos_to_comp, rate)
-    (clusters, colorized_graph) = get_clusters_and_colorized_graph(nx_graph_and_cmps_sv['graph_nx'])
+    (clusters, colorized_graph) = get_clusters_and_colorized_graph__version_with_groups(
+        nx_graph_and_cmps_sv['graph_nx'])
     # nx_graph_and_cmps_sv['graph_nx'] = colorized_graph
 
     # print(clusters)

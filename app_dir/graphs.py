@@ -42,7 +42,7 @@ def get_pyvis_graph_from_nx_graph(nx_graph):
 import community.community_louvain as lo
 
 
-def get_clusters_and_colorized_graph(graph_nx: Graph):
+def get_clusters_and_colorized_graph__version_with_colors(graph_nx: Graph):
     partition = lo.best_partition(graph_nx)
 
     amount_of_colors = len(set(partition.values()))
@@ -79,4 +79,28 @@ def get_clusters_and_colorized_graph(graph_nx: Graph):
             graph_nx.nodes[node]['color'] = "#ffffff"
 
     # nx.draw(graph_nx, node_color=color_map, with_labels=True)
+    return clusters, graph_nx
+
+
+def get_clusters_and_colorized_graph__version_with_groups(graph_nx: Graph):
+    partition = lo.best_partition(graph_nx)
+    cl_id__group_number__dict = dict()
+
+    clusters = []
+    group_count = 0
+    for cluster_id in set(partition.values()):
+        cl_id__group_number__dict[cluster_id] = group_count
+        group_count += 1
+
+        nodes = [nodes for nodes in partition.keys() if partition[nodes] == cluster_id]
+        # min amount of nodes in cluster is 2
+        if len(nodes) > 1:
+            clusters.append(nodes)
+
+    for node in graph_nx:
+        if partition[node] in cl_id__group_number__dict:
+            graph_nx.nodes[node]['group'] = cl_id__group_number__dict[partition[node]]
+        else:
+            graph_nx.nodes[node]['group'] = -1
+
     return clusters, graph_nx
