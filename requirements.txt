@@ -13,3 +13,9 @@ pandas~=2.2.2
 matplotlib~=3.9.1
 numpy~=1.23
 python-dotenv~=1.0.1
+
+ray
+dask~=2024.7.1
+dask[complete] distributed
+"dask[distributed]"
+pytest~=8.2.2
