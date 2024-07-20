@@ -122,3 +122,4 @@ fabric.properties
 .env
 tests/**
 networkx-pyvis.html
+__pycache__
