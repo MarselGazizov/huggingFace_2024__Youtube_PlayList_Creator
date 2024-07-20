@@ -11,8 +11,8 @@ from networkx import Graph
 
 from pyvis.network import Network
 
-from app_dir.models.emb_model import get_most_similar_sentences__version_pl_1
-from app_dir.models.emb_model import get_most_similar_sentences__version_3d_1
+from app_dir.back.helper import get_most_similar_sentences__version_3d_1, \
+    get_most_similar_sentences__version_3d_2_in_parallel, get_most_similar_sentences__version_pl_1
 
 import enum
 
