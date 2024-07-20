@@ -123,3 +123,9 @@ fabric.properties
 tests/**
 networkx-pyvis.html
 __pycache__
+
+.idea/**/*.xml
+.idea/**/*.gitignore
+
+
+
