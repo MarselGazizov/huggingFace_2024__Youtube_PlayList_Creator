@@ -19,8 +19,8 @@ class DataGen:
     def __init__(self, youtube):
         self._youtube = youtube
 
-    def get_all_videos_from_youtube_chanel_that_is_on_native_lang(self, channel_id):
-        log.info("start of func")
+    def get_all_videos_from_youtube_chanel_that_is_on_native_lang(self, channel_id, amount):
+        # log.info("start of func")
 
         videos = []
 
@@ -31,6 +31,7 @@ class DataGen:
 
         next_page_token = None
 
+        amount_gathered_videos = 0
         while True:
             res = self._youtube.playlistItems().list(playlistId=playlist_id,
                                                      part='snippet',
@@ -42,14 +43,18 @@ class DataGen:
             if next_page_token is None:
                 break
 
+            amount_gathered_videos += 50
+            if amount_gathered_videos >= amount:
+                break
+
         return videos
 
     def get_titles_of_videos_data(self, channel_id, amount=500, get_all=False):
-        log.info("start of func")
-        if get_all:
-            r = self.get_all_videos_from_youtube_chanel_that_is_on_native_lang(channel_id)
-        else:
-            r = self.get_all_videos_from_youtube_chanel_that_is_on_native_lang(channel_id)[:amount]
+        # log.info("start of func")
+        r = self.get_all_videos_from_youtube_chanel_that_is_on_native_lang(channel_id, amount=amount)
+        if not get_all:
+            r = r[:amount]
+
         for i in range(len(r)):
             r[i] = r[i]['snippet']['title']
         log.info(f"len(res) = {len(r)}")
