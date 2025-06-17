@@ -1,0 +1,14 @@
+name: Gitleaks Scan
+on: [push, pull_request]
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Gets FULL git history instead of shallow clone
+
+      - uses: gitleaks/gitleaks-action@v2
+        with:
+          config-path: ".gitleaks.toml"  # Optional
